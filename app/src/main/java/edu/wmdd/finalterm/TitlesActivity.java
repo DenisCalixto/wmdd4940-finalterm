@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -54,9 +55,6 @@ public class TitlesActivity extends AppCompatActivity {
                         try {
 
                             JSONObject obj = new JSONObject(response);
-//                            Log.d("Volley", obj.toString());
-//                            Log.d("Volley", obj.getJSONObject("data").toString());
-//                            Log.d("Volley", obj.getJSONObject("data").getJSONArray("children").toString());
 
                             itemsArrayList = new ArrayList<>();
                             JSONArray dataArray  = obj.getJSONObject("data").getJSONArray("children");
@@ -72,7 +70,11 @@ public class TitlesActivity extends AppCompatActivity {
 
                             }
 
-                            setupListview();
+                            if (itemsArrayList.size() == 0) {
+                                Toast.makeText(TitlesActivity.this, "No postings found", Toast.LENGTH_LONG).show();
+                            } else {
+                                setupListview();
+                            }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -82,7 +84,7 @@ public class TitlesActivity extends AppCompatActivity {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Networking error", Toast.LENGTH_LONG).show();
                     }
                 });
 
