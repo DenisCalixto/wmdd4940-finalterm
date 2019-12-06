@@ -24,39 +24,29 @@ import java.util.ArrayList;
 
 public class TitlesActivity extends AppCompatActivity {
 
-    private String API_URL = "https://www.reddit.com/.json";
+    private String API_URL = "https://www.reddit.com/r/{SUBREDDIT}/.json";
     private ListView redditListView;
     ArrayList<RedditItem> itemsArrayList;
     private RedditListAdapter redditListAdapter;
+    private String subreddit = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_titles);
 
+        Intent intent = getIntent();
+        this.subreddit = intent.getStringExtra("subreddit");
+
         redditListView = findViewById(R.id.reddit_list);
 
         getData();
-
-//        redditListView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-//        {
-//            @Override
-//            public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3)
-//            {
-//                RedditItem item = (RedditItem) adapter.getItemAtPosition(position);
-//                //Toast.makeText(getApplicationContext(), item.getPermalink(), Toast.LENGTH_LONG).show();
-//
-//                Intent intent = new Intent(TitlesActivity.this, RedditActivity.class);
-//                intent.putExtra("permalink", item.getPermalink());
-//                startActivity(intent);
-//            }
-//        });
 
     }
 
     private void getData() {
 
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, API_URL,
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, API_URL.replace("{SUBREDDIT}", this.subreddit),
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -77,7 +67,6 @@ public class TitlesActivity extends AppCompatActivity {
                                 JSONObject dataobj = dataArray.getJSONObject(i).getJSONObject("data");
 
                                 redditItem.setTitle(dataobj.getString("title"));
-                                redditItem.setPermalink(dataobj.getString("permalink"));
 
                                 itemsArrayList.add(redditItem);
 

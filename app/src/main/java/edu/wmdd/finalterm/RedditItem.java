@@ -2,7 +2,7 @@ package edu.wmdd.finalterm;
 
 public class RedditItem {
 
-    private String title, permalink;
+    private String title;
 
     public String getTitle() {
         return title;
@@ -12,11 +12,4 @@ public class RedditItem {
         this.title = title;
     }
 
-    public String getPermalink() {
-        return permalink;
-    }
-
-    public void setPermalink(String permalink) {
-        this.permalink = permalink;
-    }
 }
