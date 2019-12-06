@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
     Button btAdd;
     EditText subredditText;
-    static ArrayList<SubredditItem> itemsArrayList = new ArrayList<SubredditItem>();
+    static ArrayList<String> itemsArrayList = new ArrayList<String>();
     private ListView subredditListView;
     private SubredditListAdapter subredditListAdapter;
 
@@ -32,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapter, View v, int position, long arg3)
             {
-                SubredditItem item = (SubredditItem) adapter.getItemAtPosition(position);
+                String item = (String) adapter.getItemAtPosition(position);
                 Intent intent = new Intent(MainActivity.this, TitlesActivity.class);
-                intent.putExtra("subreddit", item.name);
+                intent.putExtra("subreddit", item);
                 startActivity(intent);
             }
         });
@@ -48,10 +49,16 @@ public class MainActivity extends AppCompatActivity {
         btAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                SubredditItem item = new SubredditItem();
-                item.name = subredditText.getText().toString();
-                itemsArrayList.add(item);
-                subredditListAdapter.notifyDataSetChanged();
+                String text = subredditText.getText().toString().trim();
+                if (!text.equals("")) {
+                    if (itemsArrayList.contains(text)) {
+                        Toast.makeText(MainActivity.this, "Sudreddit already added!", Toast.LENGTH_LONG).show();
+                    } else {
+                        itemsArrayList.add(text);
+                        subredditListAdapter.notifyDataSetChanged();
+                    }
+                    subredditText.setText("");
+                }
             }
         });
     }

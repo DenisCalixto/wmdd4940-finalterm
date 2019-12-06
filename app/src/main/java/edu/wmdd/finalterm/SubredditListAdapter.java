@@ -12,9 +12,9 @@ import java.util.ArrayList;
 public class SubredditListAdapter extends BaseAdapter {
 
     private Context context;
-    private ArrayList<SubredditItem> itemsArrayList;
+    private ArrayList<String> itemsArrayList;
 
-    public SubredditListAdapter(Context context, ArrayList<SubredditItem> itemsArrayList) {
+    public SubredditListAdapter(Context context, ArrayList<String> itemsArrayList) {
 
         this.context = context;
         this.itemsArrayList = itemsArrayList;
@@ -52,7 +52,7 @@ public class SubredditListAdapter extends BaseAdapter {
             // the getTag returns the viewHolder object set as a tag to the view
             holder = (ViewHolder)convertView.getTag();
         }
-        holder.txtTitle.setText(itemsArrayList.get(position).name);
+        holder.txtTitle.setText(itemsArrayList.get(position));
 
         return convertView;
     }
